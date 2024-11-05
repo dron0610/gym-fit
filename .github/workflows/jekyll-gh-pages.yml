@@ -1,9 +1,12 @@
-name: Deploy to GitHub Pages
+name: Node.js Build and Test
 
 on:
   push:
     branches:
-      - main  # Trigger deployment when pushing to the main branch
+      - main  # Is branch pe push hone par workflow chalega
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -13,19 +16,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  # Adjust Node.js version as needed for your project
+      - name: Navigate to project directory
+        run: cd gym-fit  # Yahan apne project ka correct folder ka naam dena
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build the project
+      - name: Build project
         run: npm run build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build  # Adjust to your output directory, such as `dist` for Vue/Nuxt or `out` for Next.js
